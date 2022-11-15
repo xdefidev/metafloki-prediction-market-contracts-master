@@ -67,15 +67,17 @@ async function execute(harmonyPredictionContract) {
       skipped = true;
     }
 
+    // {
+    //   from: config.adminAddress,
+    //   gasLimit: 500000,
+    //   gasPrice: _gasPrice.mul(2),
+    // }
+
     if (!skipped && genesisLockOnce === false) {
       console.log("\nlocking genesis round...");
       try {
         await printTs(harmonyPredictionContract);
-        const tx = await harmonyPredictionContract.genesisLockRound({
-          from: config.adminAddress,
-          gasLimit: 500000,
-          gasPrice: _gasPrice.mul(2),
-        });
+        const tx = await harmonyPredictionContract.genesisLockRound();
         await tx.wait();
       } catch (error) {
         console.log("error ", error);
