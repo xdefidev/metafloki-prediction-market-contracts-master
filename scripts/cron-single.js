@@ -71,7 +71,11 @@ async function execute(harmonyPredictionContract) {
       console.log("\nlocking genesis round...");
       try {
         await printTs(harmonyPredictionContract);
-        const tx = await harmonyPredictionContract.genesisLockRound();
+        const tx = await harmonyPredictionContract.genesisLockRound({
+          from: config.adminAddress,
+          gasLimit: 500000,
+          gasPrice: _gasPrice.mul(2),
+        });
         await tx.wait();
       } catch (error) {
         console.log("error ", error);
@@ -106,7 +110,7 @@ async function execute(harmonyPredictionContract) {
 async function main() {
   const config = JSON.parse(fs.readFileSync("./config.json", "utf-8"));
 
-  const signer = await hre.ethers.provider.getSigner(config.adminAddress);
+  const [signer] = await hre.ethers.getSigners();
   const harmonyPredictionContract = await hre.ethers.getContractAt(
     "MetaFlokiPrediction",
     config.harmonyPredictionContract,

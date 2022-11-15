@@ -4,11 +4,9 @@ require("@nomiclabs/hardhat-waffle");
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
+  const [signer] = await hre.ethers.getSigners();
 
-  for (const account of accounts) {
-    console.log(account.address);
-  }
+  console.log("signer:", signer);
 });
 
 // You need to export an object to set up your config
@@ -22,6 +20,8 @@ module.exports = {
     harmony: {
       url: "https://bsc-dataseed.binance.org/",
       chainId: 56,
+      gas: 3100000,
+      gasPrice: 76000000000,
       accounts: [process.env.PRIVATE_KEY],
     },
     avalanche: {
